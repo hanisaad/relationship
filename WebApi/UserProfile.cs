@@ -14,12 +14,17 @@ namespace WebApi
         {
             CreateMap<User, UserViewModel>()
                 .ForMember(dto => dto.UserRoles, opt => opt.MapFrom(x => x.UserRoles.Select(y => y.Role).ToList()));
+            
+            CreateMap<Permission, PermissionViewModel>();
+            CreateMap<PermissionViewModel, Permission>();
+
+            CreateMap<UserStatus, UserStatusViewModel>();
+            //      Mapper.CreateMap<GoodEntity, GoodDTO>()
+            //.ForMember(dto => dto.providers, opt => opt.MapFrom(x => x.GoodsAndProviders.Select(y => y.Providers).ToList()));
+
             CreateMap<Role, RoleViewModel>()
                 .ForMember(dto => dto.Permissions, opt => opt.MapFrom(x => x.RolePermissions.Select(y => y.Permission).ToList()));
-            CreateMap<Permission, PermissionViewModel>();
-            CreateMap<UserStatus, UserStatusViewModel>();
-      //      Mapper.CreateMap<GoodEntity, GoodDTO>()
-      //.ForMember(dto => dto.providers, opt => opt.MapFrom(x => x.GoodsAndProviders.Select(y => y.Providers).ToList()));
+            CreateMap<RoleViewModel, Role>();
 
         }
     }
