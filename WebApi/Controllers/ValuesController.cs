@@ -24,6 +24,7 @@ namespace WebApi.Controllers
             _mapper = mapper;
         }
 
+        //https://stackoverflow.com/questions/8869632/entity-framework-update-many-to-many-relationship-virtual-or-not
 
         [HttpGet]
         public IEnumerable<RoleViewModel> Get()
