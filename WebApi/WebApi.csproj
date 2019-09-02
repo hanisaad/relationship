@@ -33,6 +33,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="2.2.0" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="2.0.7" />
   </ItemGroup>
 
 </Project>

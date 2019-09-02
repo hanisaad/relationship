@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Model;
 using WebApi.ViewModel;
+using Z.EntityFramework.Plus;
 
 namespace WebApi.Controllers
 {
@@ -29,9 +30,43 @@ namespace WebApi.Controllers
         [HttpGet]
         public IEnumerable<RoleViewModel> Get()
         {
-            var roles = _context.Roles.Include(x => x.RolePermissions).ThenInclude(x => x.Permission).AsQueryable();
 
-            var mapped = _mapper.Map<IEnumerable<Role>, IEnumerable<RoleViewModel>>(roles.ToList());
+          
+            var roles = _context.Roles
+                .OrderBy(c => c.Name)
+                .Select(c => new RoleViewModel()
+                {
+
+                    Permissions = _mapper.Map<IEnumerable<Permission>, IEnumerable<PermissionViewModel>>(c.RolePermissions.Where(sub => sub.Active == true).Select( sub => sub.Permission).ToList()).ToList(),
+                    Name = c.Name,
+                    RoleId = c.RoleId,
+                    //include any other fields needed here
+                })
+                .ToList();
+            var mapped = roles;
+
+            //var roles = _context.Roles.IncludeFilter(x => x.RolePermissions.Where(s => s.Active == true).Select(s => s.Permission)).AsQueryable();
+
+            //var mapped = _mapper.Map<IEnumerable<Role>, IEnumerable<RoleViewModel>>(roles.ToList());
+
+
+            //var roles = _context.Roles
+            //    .OrderBy(c => c.Name)
+            //    .Select(c => new Role()
+            //    {
+            //        RolePermissions = c.RolePermissions.Where(sub => sub.Active == true).ToList(),
+            //        Name = c.Name,
+            //        RoleId = c.RoleId,
+            //        //include any other fields needed here
+            //    })
+            //    .ToList();
+
+            //var mapped = _mapper.Map< IEnumerable<Role>, IEnumerable< RoleViewModel> >(roles.ToList());
+
+
+            //var roles = _context.Roles.Include(x => x.RolePermissions).ThenInclude(x => x.Permission).Where(x => x.RolePermissions.Any(s => s.Active == true)).AsQueryable();
+
+            //var mapped = _mapper.Map<IEnumerable<Role>, IEnumerable<RoleViewModel>>(roles.ToList());
 
             return mapped;
         }

@@ -9,8 +9,8 @@ using WebApi;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(WebApiContext))]
-    [Migration("20190828225403_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20190902145018_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,33 @@ namespace WebApi.Migrations
                     b.HasKey("PermissionId");
 
                     b.ToTable("Permissions");
+
+                    b.HasData(
+                        new
+                        {
+                            PermissionId = 1,
+                            Name = "Read"
+                        },
+                        new
+                        {
+                            PermissionId = 2,
+                            Name = "Write"
+                        },
+                        new
+                        {
+                            PermissionId = 3,
+                            Name = "Create"
+                        },
+                        new
+                        {
+                            PermissionId = 4,
+                            Name = "Update"
+                        },
+                        new
+                        {
+                            PermissionId = 5,
+                            Name = "All"
+                        });
                 });
 
             modelBuilder.Entity("WebApi.Model.Role", b =>
@@ -44,6 +71,23 @@ namespace WebApi.Migrations
                     b.HasKey("RoleId");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = 1,
+                            Name = "Administrator"
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            Name = "Regular"
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            Name = "View"
+                        });
                 });
 
             modelBuilder.Entity("WebApi.Model.RolePermission", b =>
@@ -51,6 +95,8 @@ namespace WebApi.Migrations
                     b.Property<int>("RolePermissionId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active");
 
                     b.Property<int>("PermissionId");
 
@@ -63,6 +109,71 @@ namespace WebApi.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermission");
+
+                    b.HasData(
+                        new
+                        {
+                            RolePermissionId = 1007,
+                            Active = false,
+                            PermissionId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            RolePermissionId = 1008,
+                            Active = false,
+                            PermissionId = 2,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            RolePermissionId = 1009,
+                            Active = false,
+                            PermissionId = 3,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            RolePermissionId = 1010,
+                            Active = false,
+                            PermissionId = 4,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            RolePermissionId = 1011,
+                            Active = false,
+                            PermissionId = 5,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            RolePermissionId = 1012,
+                            Active = false,
+                            PermissionId = 1,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            RolePermissionId = 1013,
+                            Active = false,
+                            PermissionId = 2,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            RolePermissionId = 1014,
+                            Active = false,
+                            PermissionId = 3,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            RolePermissionId = 1015,
+                            Active = false,
+                            PermissionId = 1,
+                            RoleId = 3
+                        });
                 });
 
             modelBuilder.Entity("WebApi.Model.User", b =>
@@ -82,6 +193,15 @@ namespace WebApi.Migrations
                     b.HasIndex("UserStatusId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 3,
+                            FirstName = "Mike",
+                            LastName = "Solomon",
+                            UserStatusId = 1
+                        });
                 });
 
             modelBuilder.Entity("WebApi.Model.UserRole", b =>
@@ -101,6 +221,14 @@ namespace WebApi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRole");
+
+                    b.HasData(
+                        new
+                        {
+                            UserRoleId = 4,
+                            RoleId = 1,
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("WebApi.Model.UserStatus", b =>
@@ -114,6 +242,23 @@ namespace WebApi.Migrations
                     b.HasKey("UserStatusId");
 
                     b.ToTable("UserStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            UserStatusId = 1,
+                            Name = "Active"
+                        },
+                        new
+                        {
+                            UserStatusId = 2,
+                            Name = "Pending"
+                        },
+                        new
+                        {
+                            UserStatusId = 3,
+                            Name = "Deleted"
+                        });
                 });
 
             modelBuilder.Entity("WebApi.Model.RolePermission", b =>

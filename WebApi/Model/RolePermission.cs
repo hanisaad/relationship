@@ -18,6 +18,7 @@ namespace WebApi.Model
 
         public int PermissionId { get; set; }
         public Permission Permission { get; set; }
+        public bool Active { get; set; }
 
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApi.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,7 +53,8 @@ namespace WebApi.Migrations
                     RolePermissionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<int>(nullable: false),
-                    PermissionId = table.Column<int>(nullable: false)
+                    PermissionId = table.Column<int>(nullable: false),
+                    Active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -118,6 +119,64 @@ namespace WebApi.Migrations
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Permissions",
+                columns: new[] { "PermissionId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Read" },
+                    { 2, "Write" },
+                    { 3, "Create" },
+                    { 4, "Update" },
+                    { 5, "All" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "RoleId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Administrator" },
+                    { 2, "Regular" },
+                    { 3, "View" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserStatuses",
+                columns: new[] { "UserStatusId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Active" },
+                    { 2, "Pending" },
+                    { 3, "Deleted" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "RolePermission",
+                columns: new[] { "RolePermissionId", "Active", "PermissionId", "RoleId" },
+                values: new object[,]
+                {
+                    { 1007, false, 1, 1 },
+                    { 1008, false, 2, 1 },
+                    { 1009, false, 3, 1 },
+                    { 1010, false, 4, 1 },
+                    { 1011, false, 5, 1 },
+                    { 1012, false, 1, 2 },
+                    { 1013, false, 2, 2 },
+                    { 1014, false, 3, 2 },
+                    { 1015, false, 1, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "FirstName", "LastName", "UserStatusId" },
+                values: new object[] { 3, "Mike", "Solomon", 1 });
+
+            migrationBuilder.InsertData(
+                table: "UserRole",
+                columns: new[] { "UserRoleId", "RoleId", "UserId" },
+                values: new object[] { 4, 1, 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_RolePermission_PermissionId",
